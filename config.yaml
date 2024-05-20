@@ -1,2 +1,2 @@
 data:
-    df: 'resource/Churn_Modelling.csv'
+    df: '../data/datain/Churn_Modelling.csv'
