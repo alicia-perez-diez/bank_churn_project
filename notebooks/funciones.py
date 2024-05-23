@@ -408,4 +408,295 @@ def graph_activity_exited_customers(df):
     # Mostramos el gráfico
     fig.show()
 
-def 
+def column_to_boolean_numeric(df, column):
+
+    """
+    Convierte una columna del dataframe de tipo categórico a tipo numérico booleano.
+
+    Args:
+    df (pandas.DataFrame): El dataframe que contiene la columna a convertir.
+    columna (str): El nombre de la columna a convertir.
+
+    Returns:
+    pandas.DataFrame: El dataframe con la columna convertida a tipo numérico.
+    """
+    df[column] = df[column].map({'No': 0, 'Yes': 1})
+
+    return df
+
+def pairplot(df, numeric_var, target_column='Exited'):
+    
+    """
+    Genera un pairplot para verificar la relación entre las variables numéricas en un dataframe.
+
+    Args:
+    df (pandas.DataFrame): El dataframe que contiene las variables.
+    numeric_var (list): Lista de nombres de las variables numéricas a incluir en el pairplot.
+    target_column (str, opcional): El nombre de la columna que se usará para diferenciar los datos en el pairplot. 
+                                    Por defecto, 'Exited'.
+
+    Returns:
+    None
+    """
+
+    import seaborn as sns
+
+    numeric_var = ['CreditScore', 'Age', 'Tenure', 'Balance', 'EstimatedSalary', 'Exited']
+
+    sns.pairplot(df[numeric_var], hue=target_column)
+
+def correlation_heatmap(df, numeric_var):
+
+    """
+    Crea un gráfico de correlación de las variables numéricas en un dataframe.
+
+    Args:
+    df (pandas.DataFrame): El dataframe que contiene las variables numéricas.
+    numeric_var (list): Lista de nombres de las variables numéricas a incluir en el gráfico de correlación.
+
+    Returns:
+    None
+    """
+
+    import numpy as np
+    import seaborn as sns
+    import matplotlib.pyplot as plt
+
+    # Calculamos la matriz de correlación
+    corr = np.abs(df[numeric_var].corr())
+
+    # Creamos la máscara para la representación triangular
+    mask = np.zeros_like(corr, dtype=bool)
+    mask[np.triu_indices_from(mask)] = True
+
+    # Configuramos el gráfico de matplotlib
+    f, ax = plt.subplots(figsize=(10, 10))
+
+    # Generamos un mapa de colores personalizado
+    cmap = sns.diverging_palette(220, 10, as_cmap=True)
+
+    # Dibujamos el heatmap con la máscara y la relación de aspecto correcta
+    sns.heatmap(corr, mask=mask, vmax=1, square=True, linewidths=.5, cbar_kws={"shrink": .5}, annot=corr, cmap=cmap)
+
+    # Mostramos el mapa de calor
+    plt.show()
+
+def chi_squared_heatmap(df, categoric_var):
+
+    """
+    Calcula el chi cuadrado para cuantificar la relación entre las variables categóricas y
+    crea un mapa de calor para visualizar los resultados.
+
+    Args:
+    df (pandas.DataFrame): El dataframe que contiene las variables categóricas.
+    categoric_var (list): Lista de nombres de las variables categóricas.
+
+    Returns:
+    None
+    """
+
+    import pandas as pd
+    import seaborn as sns
+    import matplotlib.pyplot as plt
+    from scipy.stats import chi2_contingency
+
+    results = {}
+    for col1 in df[categoric_var]:
+        for col2 in df[categoric_var]:
+            if col1 != col2:
+                contingency_table = pd.crosstab(df[col1], df[col2])
+                chi2, p, dof, ex = chi2_contingency(contingency_table)
+                results[(col1, col2)] = {'chi2': chi2, 'p': p}
+
+    # Organizamos los datos en una matriz cuadrada
+    chi_squared_matrix = pd.DataFrame.from_dict(results, orient='index').reset_index()
+
+    # Creamos un mapa de calor con seaborn
+    plt.figure(figsize=(10, 8))
+    heatmap = sns.heatmap(chi_squared_matrix.pivot(index='level_0', columns='level_1', values='chi2'),
+                          annot=True,
+                          cmap='coolwarm',
+                          linewidths=0.5,
+                          fmt=".2f")
+    heatmap.set_title('Chi-Squared correlation map among categoric vars')
+
+    # Mostramos el mapa de calor
+    plt.show()
+
+def abt_creation(df):
+
+    """
+    Crea una tabla de datos analíticos (ABT) a partir de un dataframe dado.
+
+    Args:
+    df (pandas.DataFrame): El dataframe original.
+
+    Returns:
+    pandas.DataFrame: La tabla de datos analíticos (ABT) creada.
+    """
+    import pandas as pd
+
+    # Eliminamos la columna CustomerId
+    df = df.drop(columns=['CustomerId'])
+
+    # Creamos una nueva columna con el promedio del número de productos por geografía y la desviación estándar
+    NumOfProducts_per_geography_sum_df = df[['Geography', 'NumOfProducts']].groupby('Geography').mean().reset_index()
+    NumOfProducts_per_geography_std_df = df[['Geography', 'NumOfProducts']].groupby('Geography').std().reset_index()
+
+    # Merge left para añadir los nuevos dataframes al original
+    df = pd.merge(df, NumOfProducts_per_geography_sum_df, on='Geography', how='left')
+    df = pd.merge(df, NumOfProducts_per_geography_std_df, on='Geography', how='left')
+
+    # Cambiamos el nombre de las columnas
+    df = df.rename(columns={'NumOfProducts_y': 'Avg_NumOfProducts_per_Geography', 'NumOfProducts' : 'Std_NumOfProducts_per_Geography', 'NumOfProducts_x' : 'NumOfProducts'})
+
+    # Convertimos las variables categóricas en booleanas
+    df_dummies = pd.get_dummies(df, columns=['Geography', 'Gender'])
+
+    # Creamos una nueva columna con el promedio por valor agrupado de Age
+    age_df = df_dummies.groupby('Age_grouped').agg({'Age':'mean'}).reset_index()
+    df_dummies = pd.merge(df_dummies, age_df, on='Age_grouped', how='left')
+
+    # Creamos una nueva columna con el promedio por valor agrupado de Balance
+    balance_df = df_dummies.groupby('Balance_grouped').agg({'Balance':'mean'}).reset_index()
+    df_dummies = pd.merge(df_dummies, balance_df, on='Balance_grouped', how='left')
+
+    # Creamos una nueva columna con el promedio por valor agrupado de CreditScore
+    creditscore_df = df_dummies.groupby('CreditScore_grouped').agg({'CreditScore':'mean'}).reset_index()
+    df_dummies = pd.merge(df_dummies, creditscore_df, on='CreditScore_grouped', how='left')
+
+    # Creamos una nueva columna con el promedio por valor agrupado de EstimatedSalary
+    estimatedsalary_df = df_dummies.groupby('EstimatedSalary_grouped').agg({'EstimatedSalary':'mean'}).reset_index()
+    df_dummies = pd.merge(df_dummies, estimatedsalary_df, on='EstimatedSalary_grouped', how='left')
+
+    # Cambiamos el nombre de las columnas
+    df_dummies = df_dummies.rename(columns={'CreditScore_x': 'CreditScore', 'CreditScore_y' : 'Avg_grouped_CreditScore', 'Age_x' : 'Age', 'Age_y' : 'Avg_grouped_Age', 'Balance_x' : 'Balance', 'Balance_y' : 'Avg_grouped_Balance', 'EstimatedSalary_x' : 'EstimatedSalary',\
+                    'EstimatedSalary_y' : 'Avg_grouped_EstimatedSalary'})
+
+    # Eliminamos las columnas no necesarias
+    columns_to_drop = ['Age_grouped', 'Balance_grouped', 'CreditScore_grouped', 'EstimatedSalary_grouped']
+    df_dummies = df_dummies.drop(columns=columns_to_drop)
+
+    return df_dummies
+
+def dummies_correlation_heatmap(df_dummies):
+
+    """
+    Calcula el índice de correlación entre todas las variables de df_dummies y crea un mapa de calor para visualizar la correlación.
+
+    Args:
+    df_dummies (pandas.DataFrame): El dataframe que contiene las variables dummy.
+
+    Returns:
+    None
+    """
+
+    import numpy as np
+    import pandas as pd
+    import plotly.express as px
+
+    # Calculamos el índice de correlación entre todas las variables
+    corr = df_dummies.corr()
+
+    # Creamos una máscara para la parte superior del triángulo
+    mask = np.triu(np.ones_like(corr, dtype=bool))
+
+    # Aplicamos la máscara a la matriz de correlación
+    corr_masked = corr.mask(mask)
+
+    # Convertimos la matriz de correlación en un DataFrame de larga distancia
+    corr_long = corr.reset_index().melt(id_vars='index')
+    corr_long.columns = ['Variable1', 'Variable2', 'Correlation']
+
+    # Creamos el gráfico de calor
+    fig = px.imshow(corr, 
+                    labels=dict(x="Variables", y="Variables", color="Correlation"),
+                    x=corr.columns,
+                    y=corr.index,
+                    zmin=-1, zmax=1,
+                    color_continuous_scale=px.colors.diverging.Tealrose,
+                    aspect="equal"  # Hace el gráfico cuadrado
+                   )
+
+    # Agregamos anotaciones
+    for i in range(len(corr.index)):
+        for j in range(len(corr.columns)):
+            if not mask[i, j]:
+                fig.add_annotation(dict(
+                    x=corr.columns[j],
+                    y=corr.index[i],
+                    text=str(round(corr.values[i, j], 2)),
+                    showarrow=False,
+                    font=dict(size=10)
+                ))
+
+    fig.update_layout(
+        title="Heatmap of Correlation Matrix",
+        xaxis_nticks=len(corr.columns),
+        yaxis_nticks=len(corr.index),
+        autosize=False,
+        width=1600,
+        height=1000,
+    )
+
+    fig.show()
+
+def prediction_model(df_dummies):
+
+    """
+    Entrena un modelo de clasificación utilizando un clasificador Bagging, lo evalúa y muestra las métricas de evaluación.
+
+    Args:
+    df_dummies (pandas.DataFrame): El dataframe que contiene las variables dummy.
+
+    Returns:
+    tuple: Una tupla que contiene las métricas de evaluación (precision, recall, f1_score).
+    """
+
+    from sklearn.model_selection import train_test_split
+    from sklearn.preprocessing import StandardScaler
+    from imblearn.over_sampling import SMOTE
+    from sklearn.tree import DecisionTreeClassifier
+    from sklearn.ensemble import BaggingClassifier
+    from sklearn.metrics import precision_score, recall_score, f1_score
+
+    # Seleccionamos las variables que emplearemos en el algoritmo y definimos nuestro target en 'Exited'
+    features = df_dummies[['Age', 'Balance', 'IsActiveMember', 'NumOfProducts', 'Tenure', 'Gender_Female', 'Geography_France', 'Geography_Spain', 'Geography_Germany']]
+    target = df_dummies['Exited']
+
+    # Dividimos los datos en conjuntos de entrenamiento y prueba, donde el 20% de los datos se utiliza para la prueba
+    X_train, X_test, y_train, y_test = train_test_split(features, target, test_size=0.20, random_state=0)
+
+    # Estandarizamos los datos
+    scaler = StandardScaler()
+    X_train_standardized = scaler.fit_transform(X_train)
+    X_test_standardized = scaler.transform(X_test)
+
+    # Probamos a balancear el modelo con SMOTE
+    sm = SMOTE(random_state=1, sampling_strategy=1.0)
+    X_train_sm, y_train_sm = sm.fit_resample(X_train_standardized, y_train)
+
+    # Probamos el modelo bagging
+    bagging = BaggingClassifier(DecisionTreeClassifier(max_depth=20),
+                                n_estimators=45,
+                                max_samples=1000)
+
+    # Entrenamos el modelo
+    bagging.fit(X_train_sm, y_train_sm)
+
+    # Evaluamos el modelo
+    pred = bagging.predict(X_test_standardized)
+
+    # Calculamos métricas de evaluación
+    precision_bagging = precision_score(y_test, pred, average='macro')
+    recall_bagging = recall_score(y_test, pred, average='macro')
+    f1_bagging = f1_score(y_test, pred, average='macro')
+
+    # Imprimimos las métricas
+    print("La precisión del modelo predictivo para la variable 'Exited' es la siguiente:")
+    print("Precision:", precision_bagging)
+    print("Recall:", recall_bagging)
+    print("F1 Score:", f1_bagging)
+
+    # Devolvemos las métricas de evaluación
+    return precision_bagging, recall_bagging, f1_bagging
