@@ -11,3 +11,4 @@ seaborn = 0.12.2
 
 #para la predicción logarítmica
 scikit-learn = 1.4.2
+imbalanced-learn = 0.11.0
