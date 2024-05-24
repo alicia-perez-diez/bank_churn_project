@@ -1,13 +1,11 @@
-# Análisis de Vanguard 
-
-Análisis preliminar de los resultados de un A/B test diseñado para comparar el rendimiento de dos versiones de una página web: la versión original y una nueva variación. 
+# Machine Learning Project: Bank Churn Rate Prediction
 
 ## 👋 Introducción
 
-¡Hola, analista o curioso de los datos! 📈 Somos Alicia y Andrea, estudiantes de análisis de datos de Ironhack. En este notebook, analizamos la relación entre las características de las diferentes variaciones -tiempo de actividad- y pasos de seguimiento así como también género, edades, números de cuentas, etc.
+¡Hola, analista o curioso de los datos! 📈 Somos Alicia y Elena, estudiantes de análisis de datos de Ironhack. Este proyecto aborda la predicción de pérdida de clientes utilizando técnicas de aprendizaje automático, permitiendo a los bancos identificar y retener a los clientes en riesgo de abandonar sus servicios.
 
-Puedes ver la presentación de nuestro proyecto en el siguiente <a href="https://docs.google.com/presentation/d/1vSNEadz79u18YiQYsnBKMEvWcnifkc6X7wpc-tL2ZQA/edit?usp=sharing">enlace.</a>
-Y el enlace al tableau <a href="https://public.tableau.com/app/profile/alicia.p.rez1100/viz/tableau_dashboard_17157156255840/Story1">aquí</a>.
+Puedes ver la presentación de nuestro proyecto en el siguiente <a href="https://docs.google.com/presentation/d/1ktLRH-_VtkAzJH6bHEgY3jY7S1enClySGO14q_khs5w/edit#slide=id.g2dfb7b9197d_0_33">enlace.</a>
+
 
 ## Tabla de contenidos
 
@@ -17,74 +15,74 @@ Y el enlace al tableau <a href="https://public.tableau.com/app/profile/alicia.p.
 
 ## Metadatos
 
-- Autores: Alicia Pérez y Andrea Wahnon.
-- Fecha de creación: 17/05/2024.
-- Última modificación: 17/05/2024.
+- Autores: Alicia Pérez y Elena Marcet.
+- Fecha de creación: 24/05/2024.
+- Última modificación: 24/05/2024.
 
 ## Estructura del análisis
 
-- Planificación del proyecto: definición de retos de negocio, búsqueda de hipótesis.
-- Limpieza y formateo previos con Python: agrupación preliminar para reducir el peso de la base de datos de usuarios.
-- Importación de datos: importación de los tres dataframes a Tableau.
-- Agrupación final y análisis estadístico con Tableau
-- Técnicas de visualización para la definición de la relación entre las características de las diferentes variaciones -tiempo de actividad- y pasos de seguimiento.
+- Planificación del proyecto: definición de objetivos y retos del proyecto.
+- Limpieza y preparación de los datos
+- Análisis Exploratorio de datos (EDA)
+- Análisis de correlación entre variables
+- Técnicas de validación y balanceo de clases
+- Aplicamos modelos de aprendizaje automático: KNN, Random Forest Classifier, Bagging, ADA Boost, Gradient Boost
+- Métricas de evaluación de classificación: precisión, recall y F1 score
+- Ajuste de hiperparámetros: Grid Search
 
 ## 📊 Insights visuales
 
-![Tráfico de Usuarios por Variación](https://drive.google.com/uc?export=view&id=1r7XOvN4iGXRl3qe7l0WOrcn6Rf2x4T6K)
+![Distribution of exited customers](https://drive.google.com/uc?export=view&id=1TKFSevj04IfNyH3uVOpgI8zcmsr2sdqx)
 
-Gráfica que muestra el tráfico de usuarios por variación.
+Gráfica que muestra la distribución de clientes que abandona el banco
 
-![Género y edad de usuarios](https://drive.google.com/uc?export=view&id=1a5t66pQLHmVjPHzPVzoCfSRiQMxLkWGe)
+![Densidad variables numéricas](https://drive.google.com/uc?export=view&id=1jyha1xPbGGWpABKgAkh3gHOKe4YNc1Ml)
 
-Gráfica que muestra el género y edad de usuarios.
+Gráfica que muestra la densidad de las variables numéricas
 
-![Fidelidad de Usuarios por variación](https://drive.google.com/uc?export=view&id=1eAxwv6vRTm_lWq6McZ5Gobd6FRie5I9k)
+![Distribución variable numéricas](https://drive.google.com/uc?export=view&id=1GW4ria9gDhjgXeIuMHt5gOyCh6mL1TUz)
 
-Gráfica que muestra el porcentaje de fidelidad de los usuarios por variación.
+Gráfica que muestra la distribución de todas las variables numéricas
 
-![Número de cuentas por dinero en cuenta](https://drive.google.com/uc?export=view&id=1ujH1nzYWQdsHWt-pDmBY06pZ9atpepSw)
+![Gender distribution among exited customers](https://drive.google.com/uc?export=view&id=1p0U5dd7QI2z1zR1mUpLcqA_Gcgr8IrGh)
 
-Gráfica que muestra el número de cuentas por dinero en cuenta.
+Gráfica que muestra la distribución del género por pérdida de clienetes.
 
-![Tráfico de Usuarios por mes y días por Variación](https://drive.google.com/uc?export=view&id=1oJ2V4e_beQvSohDRZamHMJrYs_oHKC5e)
+![Age distribution among exited customers](https://drive.google.com/uc?export=view&id=1Ae7Hvq204SwgaqQ68GB76DMDMma19s7x)
 
-Gráfica que muestra el tráfico de usuarios por mes y días por variación.
+Gráfica que muestra la edad en relación a la pérdida de clientes. 
 
-![Tráfico de Usuarios por hora por Variación](https://drive.google.com/uc?export=view&id=1ghsRNMYwkGk7jUPuSsckP9LaBW_dWs12)
+![Geographic distribution among exited customers](https://drive.google.com/uc?export=view&id=1SOTG-BmI7yiPTHpyKcHyQcSjG7OGHuhN)
 
-Gráfica que muestra el tráfico de usuarios por hora por variación.
+Gráfica que muestra la distribución geografica de los clientes. 
 
-![Tiempo medio de permanencia en la plataforma](https://drive.google.com/uc?export=view&id=1p-uybXAltETTJSc67TiPm7-1NFcT2AWo)
+![Balance distribution among existed customers](https://drive.google.com/uc?export=view&id=1r4Dt_aBuWyJV7peVn4Ho6G7puuMpif9f)
 
-Gráfica que muestra el tiempo medio de permanencia en la plataforma por variación. 
+Gráfica que muestra el balance en relación a la pérdida de clientes. 
 
-![Tiempo de permanencia de los usuarios menor de 10 Segundos](https://drive.google.com/uc?export=view&id=1PbfhiaClIZBPA0qLZ388Qz8dLFkwnSOg)
+![CreditScore distribution among exited customers](https://drive.google.com/uc?export=view&id=1kO_OtiyiU2gXORvo1mHlLPwxU1iYK9y6)
 
-Gráfica que muestra el tiempo de permanencia de los usuarios menor de 10 segundos por variación.
+Gráfica que muestra el Credit Score en relación a la pérdida de clientes. 
 
-![Tasa de conversion total](https://drive.google.com/uc?export=view&id=1syz2DptCpGMYQgfb0OXZVafBkH9OOK4y)
+![Tenure distribution among exited customers](https://drive.google.com/uc?export=view&id=1VJCbVLZXBIPjkbj8p8_INEDeCY6_DNQi)
 
-Gráfica que muestra la tasa de conversión total.
+Gráfica que muestra la permanencia de los clientes en relación a la pérdida de ellos. 
 
-![Drop-off total de cada paso por variación](https://drive.google.com/uc?export=view&id=1haiSHLumcFlypUQqN8Qcz_CuPeKYWgu2)
+![EstimatedSalary distribution among exited customers](https://drive.google.com/uc?export=view&id=1jdRNi6HLptEgC3OW2h0h-9SzuPitIESX)
 
-Gráfica que muestra el drop off de cada paso por variación.
+Gráfica que muestra la relación entre el salario estimado y que los clientes sigan en el banco. 
 
-![Tiempo promedio entre pasos por variación](https://drive.google.com/uc?export=view&id=1CZjGD9oB67t6CGJjCslscmpTVUErZa-H)
+![NumofProducts distribution among exited customers](https://drive.google.com/uc?export=view&id=1pyhtPLzO-PQQ66PrOjJGRvOtbNfP0TGk)
 
-Gráfica que muestra el tiempo promedio entre pasos por variación.
+Gráfica que muestra la relación entre el número de productos y la pérdida de clientes. 
 
-![Total de errores cometidos en cada paso por variación](https://drive.google.com/uc?export=view&id=1FsKNKkgJUg_PvZH2D0-8rMr13PBJmNcG)
+![HasCrCard distribution among exited customers](https://drive.google.com/uc?export=view&id=1j5q31zeZD9_mshyFHJePlgCZOxS2D_qc)
 
-Gráfica que muestra el total de errores en cada paso por variación.
+Gráfica que muestra la relación entre si tienen credit card y la pérdida de clientes. 
 
-![Total de errores cometidos por los usuarios por variación](https://drive.google.com/uc?export=view&id=1FpXoRIVm2r6df510kXNkUxweM1Ia1M6i)
+![Variables numéricas](https://drive.google.com/uc?export=view&id=1rArEC0eWJloigybCKJ_ala7g_eIXzsW3)
 
-Gráfica que muestra el total de errores por los usuarios por variación.
+Gráfica que muestra la relación entre las variables numéricas
 
-![Tasa de Abandono Total por Vareación](https://drive.google.com/uc?export=view&id=1hB6kBJIOrc-bigz2aiA7BfLwuS9bbUKx)
-
-Gráfica que muestra total de abandono por variación.
 
 ¡Gracias por leernos 😊!
