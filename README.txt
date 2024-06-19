@@ -1,88 +1,87 @@
 # Machine Learning Project: Bank Churn Rate Prediction
 
-## 👋 Introducción
+## 👋 Introduction
 
-¡Hola, analista o curioso de los datos! 📈 Somos Alicia y Elena, estudiantes de análisis de datos de Ironhack. Este proyecto aborda la predicción de pérdida de clientes utilizando técnicas de aprendizaje automático, permitiendo a los bancos identificar y retener a los clientes en riesgo de abandonar sus servicios.
+Hello, data analyst or data enthusiast! 📈 We are Alicia and Elena, data analysis students from Ironhack. This project addresses customer churn prediction using machine learning techniques, enabling banks to identify and retain customers at risk of leaving their services.
 
-Puedes ver la presentación de nuestro proyecto en el siguiente <a href="https://docs.google.com/presentation/d/1ktLRH-_VtkAzJH6bHEgY3jY7S1enClySGO14q_khs5w/edit#slide=id.g2dfb7b9197d_0_33">enlace.</a>
+You can view our project presentation at the following <a href="https://docs.google.com/presentation/d/1ktLRH-_VtkAzJH6bHEgY3jY7S1enClySGO14q_khs5w/edit#slide=id.g2dfb7b9197d_0_33">link</a>.
 
 
-## Tabla de contenidos
+## Table of Contents
 
-- Metadatos
-- Estructura del análisis
-- Insights visuales
+- Metadata
+- Analysis Structure
+- Visual Insights
 
-## Metadatos
+## Metadata
 
-- Autores: Alicia Pérez y Elena Marcet.
-- Fecha de creación: 24/05/2024.
-- Última modificación: 24/05/2024.
+- Authors: Alicia Pérez and Elena Marcet.
+- Creation Date: 24/05/2024.
+- Last Modified: 24/05/2024.
 
-## Estructura del análisis
+## Analysis Structure
 
-- Planificación del proyecto: definición de objetivos y retos del proyecto.
-- Limpieza y preparación de los datos
-- Análisis Exploratorio de datos (EDA)
-- Análisis de correlación entre variables
-- Técnicas de validación y balanceo de clases
-- Aplicamos modelos de aprendizaje automático: KNN, Random Forest Classifier, Bagging, ADA Boost, Gradient Boost
-- Métricas de evaluación de classificación: precisión, recall y F1 score
-- Ajuste de hiperparámetros: Grid Search
+- Project planning: defining objectives and challenges
+- Data cleaning and preparation
+- Exploratory Data Analysis (EDA)
+- Correlation analysis between variables
+- Validation techniques and class balancing
+- Machine learning models applied: KNN, Random Forest Classifier, Bagging, ADA Boost, Gradient Boost
+- Classification evaluation metrics: precision, recall, and F1 score
+- Hyperparameter tuning: Grid Search
 
-## 📊 Insights visuales
+## 📊 Visual Insights
 
 ![Distribution of exited customers](https://drive.google.com/uc?export=view&id=1TKFSevj04IfNyH3uVOpgI8zcmsr2sdqx)
 
-Gráfica que muestra la distribución de clientes que abandona el banco
+Distribution of exited customers
 
 ![Densidad variables numéricas](https://drive.google.com/uc?export=view&id=1jyha1xPbGGWpABKgAkh3gHOKe4YNc1Ml)
 
-Gráfica que muestra la densidad de las variables numéricas
+Numerical variable density
 
 ![Distribución variable numéricas](https://drive.google.com/uc?export=view&id=1GW4ria9gDhjgXeIuMHt5gOyCh6mL1TUz)
 
-Gráfica que muestra la distribución de todas las variables numéricas
+Distribution of numerical variables
 
 ![Gender distribution among exited customers](https://drive.google.com/uc?export=view&id=1p0U5dd7QI2z1zR1mUpLcqA_Gcgr8IrGh)
 
-Gráfica que muestra la distribución del género por pérdida de clienetes.
+Gender distribution among exited customers
 
 ![Age distribution among exited customers](https://drive.google.com/uc?export=view&id=1Ae7Hvq204SwgaqQ68GB76DMDMma19s7x)
 
-Gráfica que muestra la edad en relación a la pérdida de clientes. 
+Age distribution among exited customers
 
 ![Geographic distribution among exited customers](https://drive.google.com/uc?export=view&id=1SOTG-BmI7yiPTHpyKcHyQcSjG7OGHuhN)
 
-Gráfica que muestra la distribución geografica de los clientes. 
+Geographic distribution among exited customers
 
 ![Balance distribution among existed customers](https://drive.google.com/uc?export=view&id=1r4Dt_aBuWyJV7peVn4Ho6G7puuMpif9f)
 
-Gráfica que muestra el balance en relación a la pérdida de clientes. 
+Balance distribution among exited customers
 
 ![CreditScore distribution among exited customers](https://drive.google.com/uc?export=view&id=1kO_OtiyiU2gXORvo1mHlLPwxU1iYK9y6)
 
-Gráfica que muestra el Credit Score en relación a la pérdida de clientes. 
+CreditScore distribution among exited customers
 
 ![Tenure distribution among exited customers](https://drive.google.com/uc?export=view&id=1VJCbVLZXBIPjkbj8p8_INEDeCY6_DNQi)
 
-Gráfica que muestra la permanencia de los clientes en relación a la pérdida de ellos. 
+Tenure distribution among exited customers
 
 ![EstimatedSalary distribution among exited customers](https://drive.google.com/uc?export=view&id=1jdRNi6HLptEgC3OW2h0h-9SzuPitIESX)
 
-Gráfica que muestra la relación entre el salario estimado y que los clientes sigan en el banco. 
+EstimatedSalary distribution among exited customers
 
 ![NumofProducts distribution among exited customers](https://drive.google.com/uc?export=view&id=1pyhtPLzO-PQQ66PrOjJGRvOtbNfP0TGk)
 
-Gráfica que muestra la relación entre el número de productos y la pérdida de clientes. 
+NumofProducts distribution among exited customers
 
 ![HasCrCard distribution among exited customers](https://drive.google.com/uc?export=view&id=1j5q31zeZD9_mshyFHJePlgCZOxS2D_qc)
 
-Gráfica que muestra la relación entre si tienen credit card y la pérdida de clientes. 
+HasCrCard distribution among exited customers
 
 ![Variables numéricas](https://drive.google.com/uc?export=view&id=1rArEC0eWJloigybCKJ_ala7g_eIXzsW3)
 
-Gráfica que muestra la relación entre las variables numéricas
+Numerical variables
 
-
-¡Gracias por leernos 😊!
+Thank you for reading 😊!
